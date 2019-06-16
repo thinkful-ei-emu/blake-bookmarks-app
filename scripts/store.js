@@ -3,21 +3,27 @@
 console.log('store.js is working');
 
 const STORE = (function(){
-  let bookmarks = [];
   let addItem = function(item){
     item.expanded = false;
-    bookmarks.push(item);
+    this.bookmarks.push(item);
   };
   let initItems = function(){
  
-    this.bookmarks = api.getBookmarks();
-    console.log('STORE');
-    this.bookmarks.forEach(item => item.expanded=false);
-    //console.log(`store bookmarks: ${this.bookmarks}`);
+    api.getBookmarks(function(retval){
+      this.bookmarks = retval;
+      this.bookmarks.forEach(item => item.expanded=false);
+    });
   };
 
+  function callbackfun(retval){
+    this.bookmarks = retval;
+    console.log('STORE');
+    this.bookmarks.forEach(item => item.expanded=false);
+
+  }
+
   return {
-    bookmarks,
+    bookmarks:[] ,
     addItem,
     initItems,
   };

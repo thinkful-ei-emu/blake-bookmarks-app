@@ -25,12 +25,12 @@ const api = (function(){
 
   };
 
-  const getBookmarks = function(){
+  const getBookmarks = function(callbackfun){
+    this.callbackfun = callbackfun;
     return fetch(baseURL)
       .then(r => r.json())
       .then(bookmarks => {
-        console.log('HIT');
-        return bookmarks;
+        this.callbackfun(bookmarks);
       })
       .catch(e => console.log(`getBookmark error : ${e}`));
   };
